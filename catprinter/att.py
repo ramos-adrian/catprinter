@@ -17,6 +17,8 @@ import struct
 
 from catprinter import logger
 
+# Some Python builds (e.g. uv's standalone ones) lack Bluetooth socket support; 31 is the Linux value.
+AF_BLUETOOTH = getattr(socket, "AF_BLUETOOTH", 31)
 BTPROTO_L2CAP = 0
 ATT_CID = 4
 BDADDR_LE_PUBLIC = 1
@@ -57,7 +59,7 @@ class _SockaddrL2(ctypes.Structure):
 def _sockaddr(mac):
     # bdaddr_t is stored little-endian.
     raw = bytes(reversed(bytes.fromhex(mac.replace(":", "")))) if mac else bytes(6)
-    return _SockaddrL2(socket.AF_BLUETOOTH, 0, (ctypes.c_ubyte * 6)(*raw),
+    return _SockaddrL2(AF_BLUETOOTH, 0, (ctypes.c_ubyte * 6)(*raw),
                        ATT_CID, BDADDR_LE_PUBLIC)
 
 
@@ -96,7 +98,7 @@ class LeAttClient:
         return self._sock is not None
 
     async def connect(self):
-        sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_SEQPACKET, BTPROTO_L2CAP)
+        sock = socket.socket(AF_BLUETOOTH, socket.SOCK_SEQPACKET, BTPROTO_L2CAP)
         try:
             local = _sockaddr(None)
             _check(_libc.bind(sock.fileno(), ctypes.byref(local), ctypes.sizeof(local)), "bind")

@@ -44,10 +44,12 @@ def parse_args():
                       help='How to fit ZPL labels wider than the paper (e.g. 10 cm shipping '
                            'labels): "reflow" rebuilds them as a single column, keeping text '
                            'and QR codes at their original size; "scale" shrinks them as drawn.')
-    args.add_argument('-e', '--energy', type=lambda h: int(h.removeprefix("0x"), 16),
-                      help="Thermal energy. Between 0x0000 (light) and 0xffff (darker, default).",
-                      default="0xffff")
-    return args.parse_args()
+    args.add_argument('-e', '--energy', type=int, choices=range(1, 11), metavar='1-10',
+                      help="Thermal energy. Between 1 (light) and 10 (darker, default).",
+                      default=10)
+    parsed = args.parse_args()
+    parsed.energy = parsed.energy * 0xffff // 10
+    return parsed
 
 
 def configure_logger(log_level):

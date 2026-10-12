@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Cat Printer
+Comment=Print images and ZPL labels on a cat thermal printer
+Exec=CatPrinter
+Icon=catprinter
+Categories=Utility;Graphics;
+Terminal=false

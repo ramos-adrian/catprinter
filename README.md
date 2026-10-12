@@ -35,7 +35,7 @@ $ ./print.py --help
 usage: print.py [-h] [-l {debug,info,warn,error}]
                 [-b {mean-threshold,floyd-steinberg,atkinson,halftone,none}]
                 [-s] [-d DEVICE] [-g] [--zpl-layout {reflow,scale}]
-                [-e ENERGY]
+                [-e 1-10]
                 filename
 
 prints an image or a ZPL label on your cat thermal printer
@@ -66,9 +66,9 @@ options:
                         shipping labels): "reflow" rebuilds them as a single
                         column, keeping text and QR codes at their original
                         size; "scale" shrinks them as drawn.
-  -e ENERGY, --energy ENERGY
-                        Thermal energy. Between 0x0000 (light) and 0xffff
-                        (darker, default).
+  -e 1-10, --energy 1-10
+                        Thermal energy. Between 1 (light) and 10 (darker,
+                        default).
 ```
 
 # Example
@@ -89,6 +89,30 @@ options:
 ```
 
 
+# Graphical interface
+
+`gui.py` is a PyQt6 front-end for the same pipeline as `print.py`:
+
+```bash
+$ python gui.py
+```
+
+- Pick an image or ZPL file with the file dialog, or drag it onto the window.
+- The preview is regenerated whenever you change the binarization algorithm or the ZPL layout.
+- It exposes the CLI options: energy (1-10), 16 gray levels (MXW01 only) and the BLE device (empty = auto-discover).
+- A running print can be stopped with **Cancelar impresión**; the printer is disconnected, but it may still print whatever it had already received.
+
+## AppImage
+
+`packaging/build_appimage.sh` builds a self-contained `dist/Cat_Printer-x86_64.AppImage` inside an Ubuntu 22.04 container (requires Docker), so it runs on distros with glibc >= 2.35:
+
+```bash
+$ ./packaging/build_appimage.sh
+$ ./dist/Cat_Printer-x86_64.AppImage
+```
+
+BlueZ (`bluetoothd`) must be running on the machine that uses it, and `libfuse2` is needed unless you run it with `--appimage-extract-and-run`. x86_64 only.
+
 # MXW01 support
 
 The MXW01 advertises the same `0xae30` service as the other models, so it is picked up by auto-discovery, but it speaks a completely different protocol. Sending it the GB/GT commands does nothing.
@@ -104,7 +128,7 @@ $ ./print.py -d 48:0F:57:44:BF:3C muzza.png   # or just: ./print.py muzza.png
 ✅ Done printing.
 ```
 
-`-e/--energy` keeps working: the `0x0000`-`0xffff` range is mapped to the MXW01's 0-100 intensity.
+`-e/--energy` takes a value from 1 to 10, mapped to the MXW01's 10-100 intensity.
 
 ## Grayscale
 
