@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#ffffff"/>
+  <g fill="none" stroke="#000000" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <!-- head and ears -->
+    <path d="M62 124 L54 50 L102 82 Q128 74 154 82 L202 50 L194 124 Q206 154 184 180 Q160 206 128 206 Q96 206 72 180 Q50 154 62 124 Z"/>
+    <!-- inner ears -->
+    <path d="M70 88 L73 106"/>
+    <path d="M186 88 L183 106"/>
+    <!-- eyes -->
+    <path d="M90 128 Q101 118 112 128"/>
+    <path d="M144 128 Q155 118 166 128"/>
+    <!-- mouth -->
+    <path d="M128 158 L128 168"/>
+    <path d="M128 168 Q117 180 106 170"/>
+    <path d="M128 168 Q139 180 150 170"/>
+    <!-- whiskers -->
+    <path d="M30 148 L80 156"/>
+    <path d="M30 176 L82 168"/>
+    <path d="M226 148 L176 156"/>
+    <path d="M226 176 L174 168"/>
+  </g>
+  <!-- nose -->
+  <path d="M118 146 L138 146 L128 158 Z" fill="#000000" stroke="#000000" stroke-width="6" stroke-linejoin="round"/>
+</svg>

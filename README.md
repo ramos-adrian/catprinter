@@ -89,6 +89,30 @@ options:
 ```
 
 
+# Graphical interface
+
+`gui.py` is a PyQt6 front-end for the same pipeline as `print.py`:
+
+```bash
+$ python gui.py
+```
+
+- Pick an image or ZPL file with the file dialog, or drag it onto the window.
+- The preview is regenerated whenever you change the binarization algorithm or the ZPL layout.
+- It exposes the CLI options: energy (1-10), 16 gray levels (MXW01 only) and the BLE device (empty = auto-discover).
+- A running print can be stopped with **Cancelar impresión**; the printer is disconnected, but it may still print whatever it had already received.
+
+## AppImage
+
+`packaging/build_appimage.sh` builds a self-contained `dist/Cat_Printer-x86_64.AppImage` inside an Ubuntu 22.04 container (requires Docker), so it runs on distros with glibc >= 2.35:
+
+```bash
+$ ./packaging/build_appimage.sh
+$ ./dist/Cat_Printer-x86_64.AppImage
+```
+
+BlueZ (`bluetoothd`) must be running on the machine that uses it, and `libfuse2` is needed unless you run it with `--appimage-extract-and-run`. x86_64 only.
+
 # MXW01 support
 
 The MXW01 advertises the same `0xae30` service as the other models, so it is picked up by auto-discovery, but it speaks a completely different protocol. Sending it the GB/GT commands does nothing.
